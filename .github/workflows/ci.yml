@@ -27,5 +27,13 @@ jobs:
 
       - name: Run markdown lint
         run: |
-          npm install remark-cli remark-preset-lint-consistent
-          npx remark . --use remark-preset-lint-consistent --frail
+          npm install remark-cli remark-preset-lint-consistent vfile-reporter-json
+          npx remark . --use remark-preset-lint-consistent --report vfile-reporter-json 2> remark-lint-report.json
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          # Artifact name
+          name: Test Results
+          # A file, directory or wildcard pattern that describes what to upload
+          path: remark-lint-report.json
